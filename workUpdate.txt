@@ -1,0 +1,32 @@
+Relation:=
+    User 1:M Group
+    Group 1:M GroupOfEmail
+    Email Campaign 1:M GroupOfEmail
+
+Working:=
+1]*User* Create Account
+2]User will create *Groups* like Eletronic, Vegitable, FootWear etc..
+3]User will create *group_of_email* which will assign under one *Group*
+4]Then User will create *Email template* will have html in its email body
+
+Future enhancement:=
+1]Bulk upload of email in groups of email using excel
+2]
+
+Worked Done:=====
+    Created entity
+    Created Dto
+    Created Repo:-
+        EmailCampaignRepo(), GroupRepo(), UserRepo(), GroupOfEmailRepo()
+
+    Service:-
+        EmailCampaignService -> CreateEmailCampaign(),getEmailCampaign(username)
+        GroupService -> getGroup(),createGroup()
+        GroupOfEmailService -> createGroupEmail(), findGroupOfEmailById()
+        UserRegisterService -> registerUser(),
+
+    controller:-
+        GroupController -> /get, /create
+        GroupOfEmailController -> /get, /create
+        EmailCampaignController -> /get, /create
+        UserRegisterController -> /new
