@@ -18,7 +18,7 @@ public class EmailCampaignScheduler {
     EmailCampaignRepo emailCampaignRepo;
 
     @Scheduled(cron = "0 * * * * *")
-    public EmailCampaignScheduler() {
+    public void EmailScheduler() {
 
         List<EmailCampaign> emailCampaigns = emailCampaignRepo.findByStatusAndScheduledTimeLessThan(CampaignStatus.PENDING, LocalDateTime.now());
 
