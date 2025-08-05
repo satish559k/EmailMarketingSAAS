@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,13 +49,15 @@ public class EmailCampaignService {
                 return null;
             }
 
+            if(emailCampaignRequest.getScheduledTime().isBefore(ChronoLocalDateTime.from(LocalDateTime.now()))){
+                throw new IllegalArgumentException("Given scheduled time has passed scheduled time");
+            }
+
 //            Optional<EmailCampaignWithoutBodyDto> isExist = emailCampaignRepo.isExistByUserIdAndGroupId(user.get().getId(),emailCampaignRequest.getGroupId());
 //            if(isExist.isPresent() && isExist.get().getScheduledTime().equals(emailCampaignRequest.getScheduledTime())
 //                && isExist.get().getScheduledTime().isBefore(emailCampaignRequest.getScheduledTime())){
 //                return emailCampaignMapper.EmailCampaignWithoutBodyDtoToEmailCampaign(isExist.get());
 //            }
-
-
 
             EmailCampaign emailCampaign = EmailCampaign.builder()
                     .body(emailCampaignRequest.getBody())
