@@ -3,6 +3,7 @@ package com.example.EmailMarketingSAAS.entity;
 import com.example.EmailMarketingSAAS.enums.CampaignStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

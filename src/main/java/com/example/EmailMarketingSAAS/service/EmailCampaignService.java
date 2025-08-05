@@ -6,6 +6,7 @@ import com.example.EmailMarketingSAAS.dto.GlobalApiResponse;
 import com.example.EmailMarketingSAAS.entity.EmailCampaign;
 import com.example.EmailMarketingSAAS.entity.Group;
 import com.example.EmailMarketingSAAS.entity.User;
+import com.example.EmailMarketingSAAS.enums.CampaignStatus;
 import com.example.EmailMarketingSAAS.mapper.EmailCampaignMapper;
 import com.example.EmailMarketingSAAS.repository.EmailCampaignRepo;
 import com.example.EmailMarketingSAAS.repository.GroupRepo;
@@ -13,6 +14,7 @@ import com.example.EmailMarketingSAAS.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @AllArgsConstructor
+
 public class EmailCampaignService {
 
     EmailCampaignRepo emailCampaignRepo;
@@ -43,10 +46,13 @@ public class EmailCampaignService {
                 return null;
             }
 
-            Optional<EmailCampaignWithoutBodyDto> isExist = emailCampaignRepo.isExistByUserIdAndGroupId(user.get().getId(),emailCampaignRequest.getGroupId());
-            if(isExist.isPresent()){
-                return emailCampaignMapper.EmailCampaignWithoutBodyDtoToEmailCampaign(isExist.get());
-            }
+//            Optional<EmailCampaignWithoutBodyDto> isExist = emailCampaignRepo.isExistByUserIdAndGroupId(user.get().getId(),emailCampaignRequest.getGroupId());
+//            if(isExist.isPresent() && isExist.get().getScheduledTime().equals(emailCampaignRequest.getScheduledTime())
+//                && isExist.get().getScheduledTime().isBefore(emailCampaignRequest.getScheduledTime())){
+//                return emailCampaignMapper.EmailCampaignWithoutBodyDtoToEmailCampaign(isExist.get());
+//            }
+
+
 
             EmailCampaign emailCampaign = EmailCampaign.builder()
                     .body(emailCampaignRequest.getBody())
@@ -83,6 +89,17 @@ public class EmailCampaignService {
         } catch (Exception e) {
             log.error(e.getMessage());
             return Optional.empty();
+        }
+    }
+
+    public Optional<Boolean> setEmailCampaignStatus(EmailCampaign emailCampaign) {
+        try {
+            emailCampaign.setStatus(CampaignStatus.SENT);
+            emailCampaignRepo.save(emailCampaign);
+            return Optional.of(true);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return Optional.of(false);
         }
     }
 }

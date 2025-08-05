@@ -32,7 +32,7 @@ public class EmailCampaignController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping("create")
     public ResponseEntity<GlobalApiResponse<Object>> createEmailCampaign(@RequestBody EmailCampaignRequest emailCampaign) {
         try{
             EmailCampaign result = emailCampaignService.createEmailCampaign(emailCampaign);
