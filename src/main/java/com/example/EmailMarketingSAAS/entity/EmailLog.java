@@ -31,4 +31,9 @@ public class EmailLog {
     private LocalDateTime sentDateTime;
     @Column(name = "error_message")
     private String errorMessage;
+
+    @PrePersist
+    public void prePersist(){
+        status = EmailStatus.PENDING;
+    }
 }

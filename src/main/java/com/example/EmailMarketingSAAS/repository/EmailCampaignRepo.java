@@ -27,23 +27,5 @@ public interface EmailCampaignRepo extends JpaRepository<EmailCampaign, UUID> {
     long countCampaignByUserIdAndGroupId(@Param("userId") UUID userId, @Param("groupId") UUID groupId);
 
 
-    @Query("""
-    SELECT new com.example.EmailMarketingSAAS.dto.EmailCampaignWithoutBodyDto(
-        c.id,
-        c.subject,
-        c.scheduledTime,
-        c.status,
-        c.user.id,
-        c.group.id
-    )
-    FROM EmailCampaign c
-    WHERE c.user.id = :userId AND c.group.id = :groupId
-""")
-    Optional<EmailCampaignWithoutBodyDto> isExistByUserIdAndGroupId(
-            @Param("userId") UUID userId,
-            @Param("groupId") UUID groupId
-    );
-
-
     List<EmailCampaign> findByStatusAndScheduledTimeLessThan(CampaignStatus status, LocalDateTime now);
 }
