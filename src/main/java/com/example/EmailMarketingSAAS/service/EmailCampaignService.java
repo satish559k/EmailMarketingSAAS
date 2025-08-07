@@ -42,14 +42,15 @@ public class EmailCampaignService {
             Optional<Group> group = groupRepo.findById(emailCampaignRequest.getGroupId());
             if(user.isEmpty()){
                 log.info("user is null");
-                return null;
+                throw new IllegalArgumentException("user is null");
             }
             if(group.isEmpty()){
                 log.info("group is null");
-                return null;
+                throw new IllegalArgumentException("group is null");
             }
 
             if(emailCampaignRequest.getScheduledTime().isBefore(ChronoLocalDateTime.from(LocalDateTime.now()))){
+                log.info("Given scheduled time has passed scheduled time");
                 throw new IllegalArgumentException("Given scheduled time has passed scheduled time");
             }
 
