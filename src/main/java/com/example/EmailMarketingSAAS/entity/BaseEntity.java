@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -16,9 +18,11 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @Column(nullable = false,name ="created_at",updatable = false)
     @JsonIgnore
+//    @CreationTimestamp
     private LocalDateTime createdAt;
     @Column(nullable = false, name = "updated_at")
     @JsonIgnore
+//    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @PrePersist
@@ -27,7 +31,7 @@ public class BaseEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    @PostUpdate
+    @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
