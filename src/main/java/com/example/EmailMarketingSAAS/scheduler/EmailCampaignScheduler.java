@@ -32,14 +32,16 @@ public class EmailCampaignScheduler {
     private final RedisService redisService;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    @Scheduled(cron = "0 1 0 * * *") //Runs at 12:01 Am every day
+
 //    @Scheduled(fixedRate = 20000)
+    @Scheduled(cron = "0 * * * * *")
     public void EmailScheduler() throws MessagingException {
-        System.out.println("Email Scheduler started");
+        System.out.println("Email Scheduler task running at " + LocalDateTime.now());
 
         Map<Object,Object> emailCampaignData =redisService.getValueHash("email:"+LocalDateTime.now().toLocalDate());
         emailCampaignData.entrySet().stream().forEach(entry -> {
             System.out.println(entry.getKey());
+            log.info("Email campaign data: " + entry.getKey());
             System.out.println(entry.getValue());
             LocalDateTime secheduleTime = LocalDateTime.parse(entry.getValue().toString());
             if(LocalDateTime.now().isAfter(secheduleTime)){
@@ -63,19 +65,20 @@ public class EmailCampaignScheduler {
 
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 1 0 * * *") //Runs at 12:01 Am every day
 //    @Scheduled(fixedRate = 10000)
+    //it fetch data from db and put it into redis
     public void RedisSchedule() throws MessagingException {
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay();                 // 2025-10-05 00:00:00
         LocalDateTime endOfDay = today.atTime(23, 59, 59); // 2025-10-05 23:59:59
 
-        System.out.println("Redis Scheduled task running at " + LocalDateTime.now());
+        System.out.println("Redis Scheduled task to fetch data from DB running at time: " + LocalDateTime.now());
+        log.info("Redis Scheduled task to fetch data from DB running at time: " + LocalDateTime.now());
         List<EmailCampaign> emailCampaigns = emailCampaignRepo.findByStatusAndScheduledTimeBetween(CampaignStatus.PENDING,
                 startOfDay,
                 endOfDay);
         for (EmailCampaign emailCampaign : emailCampaigns) {
-//            redisService.setValueWithTTL("email:"+emailCampaign.getId().toString(),emailCampaign.getScheduledTime().toString());
             redisService.setValueHashWithTTL("email:"+LocalDateTime.now().toLocalDate(),emailCampaign.getId().toString(),emailCampaign.getScheduledTime().toString());
         }
     }
