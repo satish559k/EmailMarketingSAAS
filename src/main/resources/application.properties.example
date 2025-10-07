@@ -1,0 +1,43 @@
+
+spring.application.name=EmailMarketingSAAS
+
+#Forcing to use indian time
+spring.jackson.time-zone=Asia/Kolkata
+
+#Logging Configuration
+logging.level.org.springframework=INFO
+logging.level.org.example=DEBUG
+
+
+logging.level.org.springframework.web=DEBUG
+
+spring.datasource.url=jdbc:postgresql://
+spring.datasource.username=postgres
+spring.datasource.password=
+
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.format_sql=false
+
+logging.level.org.springframework.security=DEBUG
+
+#jwt.secretkey =
+
+#Email configuration
+udeesa.email.sender.host=smtp.gmail.com
+udeesa.email.sender.debug=true
+udeesa.email.sender.user=email123@gmail.com
+udeesa.email.sender.password=
+
+#Redis
+spring.data.redis.host=
+spring.data.redis.port=
+spring.data.redis.timeout=60000
+spring.data.redis.database=0
+
+#health
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always
+
