@@ -32,8 +32,8 @@ public class EmailCampaignScheduler {
     private final RedisService redisService;
     private final RedisTemplate<String, Object> redisTemplate;
 
-//    @Scheduled(cron = "0 * * * * *")
-    @Scheduled(fixedRate = 20000)
+    @Scheduled(cron = "0 1 0 * * *") //Runs at 12:01 Am every day
+//    @Scheduled(fixedRate = 20000)
     public void EmailScheduler() throws MessagingException {
         System.out.println("Email Scheduler started");
 
@@ -63,8 +63,8 @@ public class EmailCampaignScheduler {
 
     }
 
-//    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(cron = "0 * * * * *")
+//    @Scheduled(fixedRate = 10000)
     public void RedisSchedule() throws MessagingException {
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay();                 // 2025-10-05 00:00:00
