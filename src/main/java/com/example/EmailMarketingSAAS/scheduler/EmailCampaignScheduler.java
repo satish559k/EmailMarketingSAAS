@@ -41,7 +41,9 @@ public class EmailCampaignScheduler {
         Map<Object,Object> emailCampaignData =redisService.getValueHash("email:"+LocalDateTime.now().toLocalDate());
         emailCampaignData.entrySet().stream().forEach(entry -> {
             System.out.println(entry.getKey());
-            log.info("Email campaign data: " + entry.getKey());
+            System.out.println(entry.getValue());
+            log.info("Email campaign key data: " + entry.getKey());
+            log.info("Email campaign value data: " + entry.getKey());
             System.out.println(entry.getValue());
             LocalDateTime secheduleTime = LocalDateTime.parse(entry.getValue().toString());
             if(LocalDateTime.now().isAfter(secheduleTime)){
