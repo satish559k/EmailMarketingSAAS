@@ -29,5 +29,6 @@ public interface EmailCampaignRepo extends JpaRepository<EmailCampaign, UUID> {
 
 
     List<EmailCampaign> findByStatusAndScheduledTimeLessThan(CampaignStatus status, LocalDateTime now);
-    List<EmailCampaign> findByStatusAndScheduledTimeDate(CampaignStatus status, LocalDate scheduledTime_date);
+
+    List<EmailCampaign> findByStatusAndScheduledTimeBetween(CampaignStatus status, LocalDateTime start, LocalDateTime end);
 }
