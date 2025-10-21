@@ -1,5 +1,6 @@
 package com.example.EmailMarketingSAAS.controller;
 
+import com.example.EmailMarketingSAAS.config.SecurityConfig;
 import com.example.EmailMarketingSAAS.dto.GlobalApiResponse;
 import com.example.EmailMarketingSAAS.dto.UserRequest;
 import com.example.EmailMarketingSAAS.entity.User;
@@ -16,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("register")
+@RequestMapping("open")
 @Slf4j
 @AllArgsConstructor
 public class UserRegisterController {
     private final UserRegisterService userRegisterService;
+    private final SecurityConfig securityConfig;
 
-    @PostMapping("new")
+    @PostMapping("new-register")
     public ResponseEntity<GlobalApiResponse<Object>> CreateUser(@RequestBody UserRequest user) {
         try{
             User newUser = userRegisterService.registerUser(user);
@@ -31,5 +33,19 @@ public class UserRegisterController {
             log.error(e.getMessage());
             return GlobalResponse.failed(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
         }
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<GlobalApiResponse<Object>> Login(@RequestBody UserRequest user) {
+
+        try {
+            userRegisterService.loginUser(user);
+
+            return GlobalResponse.success(HttpStatus.OK.value(), "", "");
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return GlobalResponse.failed(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        }
+
     }
 }
