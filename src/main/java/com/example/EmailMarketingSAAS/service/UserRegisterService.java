@@ -24,6 +24,7 @@ public class UserRegisterService {
 
     public User registerUser(UserRequest user) {
         try {
+
             User newUser = new User();
             String encodedPass = passwordEncoder.encode(user.getPassword().trim());
             newUser.setEmail(user.getEmail().trim());
@@ -39,13 +40,11 @@ public class UserRegisterService {
         }
     }
 
-    public User loginUser(UserRequest user) {
-        User userDataByUserName = userRepo.findByName(user.getEmail().trim());
-        boolean isValisUser = securityConfig.passwordEncoder().matches(user.getPassword().trim(),userDataByUserName.getPassword());
-        if (isValisUser) {
-            //generate token
+    public Boolean CheckUserExists(UserRequest user) {
+        User userExists = userRepo.findByEmail(user.getEmail());
+        if (userExists!=null) {
+            return true;
         }
-        //return user login with token
+        return false;
     }
-
 }

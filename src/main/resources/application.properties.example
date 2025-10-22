@@ -41,3 +41,15 @@ spring.data.redis.database=0
 management.endpoints.web.exposure.include=*
 management.endpoint.health.show-details=always
 
+
+#add all api prefix
+spring.mvc.servlet.path=/api/v1
+
+
+jwt.secretkey =
+
+#Docs Only for development environment
+# Swagger UI path
+springdoc.swagger-ui.path=/open/swagger-ui.html
+# API docs path
+springdoc.api-docs.path=/open/v3/api-docs

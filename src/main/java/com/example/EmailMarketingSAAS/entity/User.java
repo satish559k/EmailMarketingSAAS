@@ -20,7 +20,7 @@ public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String name;
     @Column(nullable = false, unique = true)
     private String email;

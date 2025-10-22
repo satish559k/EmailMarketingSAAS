@@ -27,6 +27,10 @@ public class UserRegisterController {
     @PostMapping("new-register")
     public ResponseEntity<GlobalApiResponse<Object>> CreateUser(@RequestBody UserRequest user) {
         try{
+            boolean isUserExists = userRegisterService.CheckUserExists(user);
+            if (isUserExists) {
+                return GlobalResponse.success(HttpStatus.OK.value(), "User Already Exists", user.getEmail());
+            }
             User newUser = userRegisterService.registerUser(user);
             return GlobalResponse.success(HttpStatus.OK.value(), "Success", newUser);
         } catch (Exception e) {
@@ -35,17 +39,4 @@ public class UserRegisterController {
         }
     }
 
-    @PostMapping("login")
-    public ResponseEntity<GlobalApiResponse<Object>> Login(@RequestBody UserRequest user) {
-
-        try {
-            userRegisterService.loginUser(user);
-
-            return GlobalResponse.success(HttpStatus.OK.value(), "", "");
-        }catch (Exception e) {
-            log.error(e.getMessage());
-            return GlobalResponse.failed(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
-        }
-
-    }
 }
