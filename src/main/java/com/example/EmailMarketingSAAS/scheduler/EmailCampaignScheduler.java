@@ -58,13 +58,6 @@ public class EmailCampaignScheduler {
             }
         });
 
-//        List<EmailCampaign> emailCampaigns = emailCampaignRepo.findByStatusAndScheduledTimeLessThan(CampaignStatus.PENDING,
-//                LocalDateTime.now());
-//
-//        for (EmailCampaign emailCampaign : emailCampaigns) {
-//            sendEmail(emailCampaign);
-//        }
-
     }
 
     @Scheduled(cron = "0 1 0 * * *") //Runs at 12:01 Am every day
@@ -85,10 +78,6 @@ public class EmailCampaignScheduler {
         }
     }
 
-//    in this cron remove DB call and add redis call every min
-//    there will be one more cron run on 12:00am every day to
-//    get data and store in redis,after data used delete the data from redis
-//
 
     public void sendEmail(EmailCampaign emailCampaign) throws MessagingException {
         emailSenderService.sendEmailCampaign(emailCampaign);
