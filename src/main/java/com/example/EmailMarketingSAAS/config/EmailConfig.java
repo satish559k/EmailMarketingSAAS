@@ -37,6 +37,7 @@ public class EmailConfig {
             property.put("mail.smtp.auth","true");
             property.put("mail.smtp.starttls.enable","true");
             property.put("mail.debug","true");
+            property.put("mail.smtp.keepalive", "true"); // reuse connection
             //property.put("mail.smtp.ssl.enable","true");
 
             return mailSender;
